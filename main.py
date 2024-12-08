@@ -1,6 +1,6 @@
 import asyncio
 from aiogram import Bot, Dispatcher, types, F
-from credits import bot_token, api_token
+from credits import bot_token, CRYPTO__TOKEN
 from aiogram.filters.command import Command
 import logging
 from keyboards.keyboard_start import keyboard_1
@@ -9,7 +9,18 @@ from keyboards.keyboard_start import keyboard_1
 bot = Bot(token=bot_token)
 dp = Dispatcher()
 logging.basicConfig(level=logging.INFO)
+CRYPTO_URL = 'https://pay.crypt.bot/api/'
 
+async def create_payment(valute, summa, desc):
+    headers = {"Authorization": f"Bearer {CRYPTO__TOKEN}"}
+    payload = {
+        "asset": valute,
+        "amount": summa,
+        "description": desc
+    }
+    async with httpx.AsyncClient() as client:
+        response = await client.post(f"{CRYPTO_URL}createInvoice", headers=headers, json=payload)
+        return response.json()
 
 @dp.message(Command('start'))
 async def cmnd_start(message: types.Message):
