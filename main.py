@@ -1,27 +1,38 @@
 import asyncio
 from aiogram import Bot, Dispatcher, types, F
-from credits import bot_token, CRYPTO__TOKEN
+from credits import bot_token, CRYPTO_TOKEN
 from aiogram.filters.command import Command
 import logging
 from keyboards.keyboard_start import keyboard_1
-
+import httpx
 
 bot = Bot(token=bot_token)
 dp = Dispatcher()
 logging.basicConfig(level=logging.INFO)
 CRYPTO_URL = 'https://pay.crypt.bot/api/'
+testnet_url = 'https://testnet-pay.crypt.bot/api/'
+
+# async def create_payment(valute, summa, desc):
+#     headers = {"Authorization": f"Bearer {CRYPTO_TOKEN}"}
+#     payload = {
+#         "asset": valute,
+#         "amount": summa,
+#         "description": desc
+#     }
+#     async with httpx.AsyncClient() as client:
+#         response = await client.post(f"{CRYPTO_URL}createInvoice", headers=headers, json=payload)
+#         return response.json()
 
 async def create_payment(valute, summa, desc):
-    headers = {"Authorization": f"Bearer {CRYPTO__TOKEN}"}
+    headers = {"Crypto-Pay-API-Token": CRYPTO_TOKEN}
     payload = {
         "asset": valute,
         "amount": summa,
         "description": desc
     }
     async with httpx.AsyncClient() as client:
-        response = await client.post(f"{CRYPTO_URL}createInvoice", headers=headers, json=payload)
-        return response.json()
-
+        response = await client.post(f"{testnet_url}createInvoice", headers=headers, json=payload)
+        print(response.json())
 @dp.message(Command('start'))
 async def cmnd_start(message: types.Message):
     await message.answer('Привет, ты в шопе 1055p. Вот список товаров, которые я продаю')
@@ -36,10 +47,30 @@ async def cmnd_start(message: types.Message):
 9. рефаунд плеерока
 10. маник по доксу и прочим приколам''', reply_markup=keyboard_1)
     await message.answer('Выбери интерсующий Тебя товар')
+
+
+# @dp.message(Command('payment'))
+# async def payment_cmd(message: types.Message):
+#     try:
+#         valute = 'USDT'
+#         summa = 10
+#         desc = 'оплата мануала'
+#         payment = await create_payment(valute, summa, desc)
+#         print(payment)
+#     except Exception as e:
+#         await message.answer('ошибка оплаты')
+
 @dp.message(F.text=='рефаунд StockX')
 async def cmd_1(message: types.Message):
+    summa = 10
+    desc = 'Оплата мануала по рефаунду StockX'
+    valute = 'USDT'
+    await create_payment(valute, summa, desc)
+    
     await message.answer_photo(photo='https://images.prismic.io/contrary-research/Zmvczpm069VX1vdB_StockXcover-1-.png?auto=format,compress',
-                               caption='Мануал по рефаунду Ebay \nЦена: 10$ \nОписание: Мануал по рефаунду(полному возврату денег за покупку) тороговой площадки Ebay. Мануал куплен за 100$')
+                               caption=f'Мануал по рефаунду Ebay \nЦена: 10$ \nОписание: Мануал по рефаунду(полному возврату денег за покупку) тороговой площадки Ebay. Мануал куплен за 100$ \n'
+                                       '')
+
 @dp.message(F.text=='баллы х5 клуба')
 async def cmd_1(message: types.Message):
     await message.answer_photo(photo='https://wineretail.info/uploads/photo/SETI/X5/01.jpg',
