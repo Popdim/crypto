@@ -31,7 +31,7 @@ async def create_payment(valute, summa, desc):
         "description": desc
     }
     async with httpx.AsyncClient() as client:
-        response = await client.post(f"{testnet_url}createInvoice", headers=headers, json=payload)
+        response = await client.post(f"{CRYPTO_URL}createInvoice", headers=headers, json=payload)
         return response.json()
 @dp.message(Command('start'))
 async def cmnd_start(message: types.Message):

@@ -2,8 +2,8 @@ import asyncio
 from credits import bot_token, CRYPTO_TOKEN
 import httpx
 
-CRYPTO_URL = 'https://pay.crypt.bot/api/'
-testnet_url = 'https://testnet-pay.crypt.bot/api/'
+CRYPTO_URL = 'https://pay.crypt.bot/api/' #main кб
+# CRYPTO_URL = 'https://testnet-pay.crypt.bot/api/' #test кб
 
 
 valute = 'USDT'
@@ -11,7 +11,6 @@ summa = 0.2
 desc = 'оплата мануала'
 
 async def create_payment(valute, summa, desc):
-
     headers = {"Crypto-Pay-API-Token": CRYPTO_TOKEN}
     payload = {
         "asset": valute,
