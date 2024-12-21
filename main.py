@@ -32,7 +32,7 @@ async def create_payment(valute, summa, desc):
     }
     async with httpx.AsyncClient() as client:
         response = await client.post(f"{testnet_url}createInvoice", headers=headers, json=payload)
-        print(response.json())
+        return response.json()
 @dp.message(Command('start'))
 async def cmnd_start(message: types.Message):
     await message.answer('Привет, ты в шопе 1055p. Вот список товаров, которые я продаю')
@@ -65,32 +65,47 @@ async def cmd_1(message: types.Message):
     summa = 10
     desc = 'Оплата мануала по рефаунду StockX'
     valute = 'USDT'
-    await create_payment(valute, summa, desc)
-    
+    result = await create_payment(valute, summa, desc)
     await message.answer_photo(photo='https://images.prismic.io/contrary-research/Zmvczpm069VX1vdB_StockXcover-1-.png?auto=format,compress',
                                caption=f'Мануал по рефаунду Ebay \nЦена: 10$ \nОписание: Мануал по рефаунду(полному возврату денег за покупку) тороговой площадки Ebay. Мануал куплен за 100$ \n'
                                        '')
+    print(result)
+    await message.answer(f'Ссылка на оплату \n{result.get("result").get("pay_url")}')
 
 @dp.message(F.text=='баллы х5 клуба')
-async def cmd_1(message: types.Message):
+async def cmd_2(message: types.Message):
+    summa = 10
+    desc = 'Оплата мануала по бесконечным баллам X5 клуба'
+    valute = 'USDT'
+    result = await create_payment(valute, summa, desc)
     await message.answer_photo(photo='https://wineretail.info/uploads/photo/SETI/X5/01.jpg',
                                caption='Мануал по рефаунду Ebay \nЦена: 10$ \nОписание: Мануал по рефаунду(полному возврату денег за покупку) тороговой площадки Ebay. Мануал куплен за 100$')
-@dp.message(F.text=='рефаунд Я.Маркета')
-async def cmd_1(message: types.Message):
+    await message.answer(f'Ссылка на оплату \n{result.get("result").get("pay_url")}')
+@dp.message(F.text=='рефаунд q.Маркета')
+async def cmd_3(message: types.Message):
+    summa = 10
+    desc = 'Оплата мануала по рефаунду Я.Маркета'
+    valute = 'USDT'
     await message.answer_photo(photo='https://adindex.ru/news/marketing/322257/img/yandex.jpg',
-                               caption='Мануал по рефаунду Ebay \nЦена: 10$ \nОписание: Мануал по рефаунду(полному возврату денег за покупку) тороговой площадки Ebay. Мануал куплен за 100$')
+                               caption='Мануал по рефаунду Яндекс Маркета \nЦена: 10$ \nОписание: Мануал по рефаунду(полному возврату денег за покупку) тороговой площадки Ebay. Мануал куплен за 100$')
 @dp.message(F.text=='рефаунд OZON')
 async def cmd_1(message: types.Message):
+    summa = 10
+    desc = 'Оплата мануала по рефаунду OZON'
+    valute = 'USDT'
     await message.answer_photo(photo='https://catalogi.ru/upload/iblock/d9a/70p658pwxybfmzot3ttja0f4e014ehdx.png',
-                               caption='Мануал по рефаунду Ebay \nЦена: 10$ \nОписание: Мануал по рефаунду(полному возврату денег за покупку) тороговой площадки Ebay. Мануал куплен за 100$')
+                               caption='Мануал по рефаунду OZON \nЦена: 10$ \nОписание: Мануал по рефаунду(полному возврату денег за покупку) тороговой площадки Ebay. Мануал куплен за 100$')
 @dp.message(F.text=='рефаунд AliExpress')
 async def cmd_1(message: types.Message):
     await message.answer_photo(photo='https://catalogi.ru/upload/iblock/d9a/70p658pwxybfmzot3ttja0f4e014ehdx.png',
                                caption='Мануал по рефаунду Ebay \nЦена: 10$ \nОписание: Мануал по рефаунду(полному возврату денег за покупку) тороговой площадки Ebay. Мануал куплен за 100$')
 @dp.message(F.text=='рефаунд Farfetch')
 async def cmd_1(message: types.Message):
+    summa = 10
+    desc = 'Оплата мануала по рефаунду Farfetch'
+    valute = 'USDT'
     await message.answer_photo(photo='https://catalogi.ru/upload/iblock/d9a/70p658pwxybfmzot3ttja0f4e014ehdx.png',
-                               caption='Мануал по рефаунду Ebay \nЦена: 10$ \nОписание: Мануал по рефаунду(полному возврату денег за покупку) тороговой площадки Ebay. Мануал куплен за 100$')
+                               caption='Мануал по рефаунду Farfetch \nЦена: 10$ \nОписание: Мануал по рефаунду(полному возврату денег за покупку) тороговой площадки Ebay. Мануал куплен за 100$')
 @dp.message(F.text=='реф Grailed')
 async def cmd_1(message: types.Message):
     await message.answer_photo(photo='https://media-assets.grailed.com/prd/misc/-RX1V_JQQQLCZNNTDSDYB-WCAIHQG170G9OVQG?fit=crop&h=630&w=1200',

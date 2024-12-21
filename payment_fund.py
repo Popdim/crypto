@@ -19,7 +19,7 @@ async def create_payment(valute, summa, desc):
         "description": desc
     }
     async with httpx.AsyncClient() as client:
-        response = await client.post(f"{testnet_url}createInvoice", headers=headers, json=payload)
+        response = await client.post(f"{CRYPTO_URL}createInvoice", headers=headers, json=payload)
         # print(response.json())
 # async def check_payment():
 #     headers = {"Crypto-Pay-API-Token": CRYPTO_TOKEN}
@@ -31,7 +31,7 @@ async def create_payment(valute, summa, desc):
 async def main():
     await create_payment(valute, summa, desc)
     while True:
-        await check_payment()
+        # await check_payment()
         await asyncio.sleep(10)
 if __name__ == '__main__':
     asyncio.run(main())
